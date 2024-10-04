@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colorful Calculator</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Golden yellow background */
+    body {
+     
+      font-family: 'Arial', sans-serif;
+    }
+    .calculator {
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 10px;
+      background-image: url('./images/bg-bubble.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    .calculator .display {
+      font-size: 2rem;
+      padding: 10px;
+      text-align: right;
+      background-color: #ffffff;
+      color: #000000;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    /* Rounded buttons */
+    .calculator .btn {
+        background-image: url('./images/bubble.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        font-size: 1.5rem;
+        padding: 15px;
+        border: none; /* Remove default border */
+        border-radius: 50%; /* Make it round */
+        box-shadow: none; /* Remove default shadow */
+        color: rgb(0, 0, 0);
+        transition: all 0.3s ease;
+        width: 80px; /* Set fixed width for round button */
+        height: 80px; /* Set fixed height for round button */
+     
+    }
+    /* Custom button colors */
+    /* .btn-light { background-color: #d9d9d9; }
+    .btn-func { background-color: #007bff; color: white; }
+    .btn-eq { background-color: #ff6347; color: white; }  
+    .btn-adv { background-color: #28a745; color: white; }  
+    .btn-num { background-color: #6c757d; color: white; }  */
+
+    /* Hover Effects */
+    .btn:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container calculator">
+  <div id="display" class="display">0</div>
+  
+  <div class="row g-2">
+    <div class="col-3">
+      <button class="btn btn-light w-100" onclick="clearDisplay()">C</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-light w-100" onclick="input('%')">%</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-light w-100" onclick="backspace()">←</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-func w-100" onclick="input('/')">÷</button>
+    </div>
+  </div>
+
+  <div class="row g-2 mt-2">
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('7')">7</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('8')">8</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('9')">9</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-func w-100" onclick="input('*')">×</button>
+    </div>
+  </div>
+
+  <div class="row g-2 mt-2">
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('4')">4</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('5')">5</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('6')">6</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-func w-100" onclick="input('-')">−</button>
+    </div>
+  </div>
+
+  <div class="row g-2 mt-2">
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('1')">1</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('2')">2</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('3')">3</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-func w-100" onclick="input('+')">+</button>
+    </div>
+  </div>
+
+  <div class="row g-2 mt-2">
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('0')">0</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-num w-100" onclick="input('.')">.</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light btn-eq w-100" onclick="calculate()">=</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-light w-100" onclick="input('**2')">x²</button>
+    </div>
+  </div>
+
+ 
+
+<!-- JavaScript for calculator logic -->
+<script>
+  let display = document.getElementById("display");
+
+  function input(value) {
+    if (display.textContent === '0') {
+      display.textContent = value;
+    } else {
+      display.textContent += value;
+    }
+  }
+
+  function clearDisplay() {
+    display.textContent = '0';
+  }
+
+  function backspace() {
+    display.textContent = display.textContent.slice(0, -1);
+    if (display.textContent === '') {
+      display.textContent = '0';
+    }
+  }
+
+  function calculate() {
+    try {
+      display.textContent = eval(display.textContent);
+    } catch {
+      display.textContent = "Error";
+    }
+  }
+
+  function calculateArea() {
+    let num = parseFloat(display.textContent);
+    display.textContent = num * num;
+  }
+
+  function calculateSquareRoot() {
+    let num = parseFloat(display.textContent);
+    display.textContent = Math.sqrt(num);
+  }
+
+  function calculateCube() {
+    let num = parseFloat(display.textContent);
+    display.textContent = Math.pow(num, 3);
+  }
+
+  function calculateDiagonal() {
+    let num = parseFloat(display.textContent);
+    display.textContent = Math.sqrt(2) * num;
+  }
+</script>
+
+</body>
+</html>
